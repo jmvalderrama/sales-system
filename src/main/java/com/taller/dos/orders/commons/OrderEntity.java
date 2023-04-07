@@ -2,9 +2,7 @@ package com.taller.dos.orders.commons;
 
 import com.taller.dos.products.commons.ProductEntity;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_orders")
 public class OrderEntity {
@@ -20,7 +20,11 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @OneToMany(mappedBy = "order")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "products_orders",
+            joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id",
+                    referencedColumnName = "id"))
     private List<ProductEntity> products;
 
     private OrderStatus status;

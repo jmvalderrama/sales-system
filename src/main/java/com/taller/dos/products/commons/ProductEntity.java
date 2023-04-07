@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,8 +21,8 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @ManyToMany(mappedBy = "products")
-    private List<OrderEntity> orders;
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.MERGE)
+    private List<OrderEntity> orders = new ArrayList<>();
 
     @Column(name = "product_code", unique = true)
     private String productCode;

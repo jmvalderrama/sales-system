@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,12 +21,11 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "products_orders",
             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id",
-                    referencedColumnName = "id"))
-    private List<ProductEntity> products;
+            inverseJoinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))
+    private List<ProductEntity> products = new ArrayList<>();
 
     private OrderStatus status;
 
@@ -45,9 +45,7 @@ public class OrderEntity {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-    }
+    public void prePersist() { this.createdAt = LocalDateTime.now(); }
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();

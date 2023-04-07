@@ -9,7 +9,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(scanBasePackages={"com.taller.dos.products","com.taller.dos.orders"})
 @ComponentScan({"com.taller.dos.products", "com.taller.dos.orders"})
 @EntityScan({"com.taller.dos.products.commons", "com.taller.dos.orders.commons"})
-@EnableJpaRepositories({"com.taller.dos.products.queries.domain", "com.taller.dos.products.commands.domain"})
+@EnableJpaRepositories({
+        "com.taller.dos.products.queries.domain",
+        "com.taller.dos.products.commands.domain",
+        "com.taller.dos.orders.queries.domain",
+        "com.taller.dos.orders.commands.domain"})
 public class SalesApplication {
 
     public static void main(String[] args) {
